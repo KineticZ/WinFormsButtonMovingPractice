@@ -30,6 +30,8 @@ namespace WinFormsPractice
             pictureBox3.Width = 10;
             pictureBox3.Height = 10;
         }
+               
+        
         private void MoveButton()
         {
             int speed = 20;
@@ -39,16 +41,22 @@ namespace WinFormsPractice
             int y = button1.Location.Y;
             int width = rect.Width;
             int height = rect.Height;
+            
+            bool isInsideTopBoundary = y - offset > 0;
+            bool isInsideBottomBoundary = y + height + offset < ActiveForm.Size.Height;
+            bool isInsideLeftBoundary = x - offset > 0;
+            bool isInsideRightBoundary = x + width + offset < ActiveForm.Size.Width;
 
+            
             bool isUnderTheTop = MousePoint.Y > y;
             bool isAboveBottom = MousePoint.Y < y + height;
             bool isLeftOfTheLeft = MousePoint.X > x - offset && MousePoint.X < x + width / 2f;
             bool isRightOfTheRight = MousePoint.X < (x + width) + offset && MousePoint.X > x + width / 2f;
-            if (isLeftOfTheLeft && isUnderTheTop && isAboveBottom)
+            if (isLeftOfTheLeft && isUnderTheTop && isAboveBottom && isInsideRightBoundary)
             {
                 button1.Location = new Point(button1.Location.X + speed, button1.Location.Y);
             }
-            else if (isRightOfTheRight && isUnderTheTop && isAboveBottom)
+            else if (isRightOfTheRight && isUnderTheTop && isAboveBottom && isInsideLeftBoundary)
             {
                 button1.Location = new Point(button1.Location.X - speed, button1.Location.Y);
             }
@@ -57,11 +65,11 @@ namespace WinFormsPractice
             bool isLeftOfRight = MousePoint.X < x + width;
             bool isTopOfTop = MousePoint.Y > y - offset && MousePoint.Y < y + height / 2f;
             bool isBottomOfBottom = MousePoint.Y < (y + height) + offset && MousePoint.Y > y + height / 2f;
-            if (isTopOfTop && isRightOfLeft && isLeftOfRight)
+            if (isTopOfTop && isRightOfLeft && isLeftOfRight && isInsideBottomBoundary)
             {
                 button1.Location = new Point(button1.Location.X, button1.Location.Y + speed);
             }
-            else if(isBottomOfBottom && isRightOfLeft && isLeftOfRight)
+            else if(isBottomOfBottom && isRightOfLeft && isLeftOfRight && isInsideTopBoundary)
             {
                 button1.Location = new Point(button1.Location.X, button1.Location.Y - speed);
             }
